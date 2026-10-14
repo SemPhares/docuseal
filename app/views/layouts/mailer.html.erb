@@ -1,5 +1,6 @@
-<%# Modifié par iSHEERO le 2026-10-14 (DocuSeal 3.3.0, AGPLv3) : logo iSHEERO en tête des mails
-    et lien vers le code source modifié en pied de mail. Source : ENV DOCUSEAL_SOURCE_URL. %>
+<%# Modifié par iSHEERO le 2026-10-14 (DocuSeal 3.3.0, AGPLv3) : logo iSHEERO en tête des mails ;
+    pied « Envoyé avec DocuSeal » retiré des mails (LICENSE_ADDITIONAL_TERMS n'impose l'attribution que
+    dans les interfaces interactives : elle reste sur les pages web, avec le lien vers le code source). %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -14,9 +15,5 @@
       </p>
     <% end %>
     <%= yield %>
-    <%= render partial: 'shared/mailer_attribution' %>
-    <% if ENV['DOCUSEAL_SOURCE_URL'].present? %>
-      <p><a href="<%= ENV['DOCUSEAL_SOURCE_URL'] %>">Code source</a></p>
-    <% end %>
   </body>
 </html>
