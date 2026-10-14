@@ -1,1 +1,35 @@
-<%= render 'submissions/bulk_send_placeholder' %>
+<%# Modifié par iSHEERO le 2026-10-14 (DocuSeal 3.3.0, AGPLv3) : import d'une liste de destinataires
+    (fichier CSV ou lignes collées depuis Excel) à la place de l'encart « Pro ». Chaque ligne crée un envoi
+    par le formulaire standard de DocuSeal. Script : public/isheero/bulk-import.js. %>
+<% submitters = template.submitters.reject { |e| e['invite_by_uuid'].present? || e['optional_invite_by_uuid'].present? || e['invite_via_field_uuid'].present? } %>
+<% if submitters.size != 1 %>
+  <div class="alert">
+    <%= svg_icon('info_circle', class: 'w-6 h-6') %>
+    <p>L'import d'une liste est disponible pour les modèles à un seul signataire.</p>
+  </div>
+<% else %>
+  <% submitter = submitters.first %>
+  <% prefill_fields = template.fields.select { |f| f['submitter_uuid'] == submitter['uuid'] && f['name'].present? && %w[text date number select phone].include?(f['type']) }.map { |f| { uuid: f['uuid'], name: f['name'] } } %>
+  <% script_path = Rails.public_path.join('isheero/bulk-import.js') %>
+  <script src="/isheero/bulk-import.js?v=<%= File.exist?(script_path) ? File.mtime(script_path).to_i : 0 %>" defer></script>
+  <%= form_for '', url: template_submissions_path(template), html: { class: 'space-y-4', autocomplete: 'off' }, data: { turbo_frame: :_top } do |f| %>
+    <isheero-bulk-import class="block space-y-3" data-submitter-uuid="<%= submitter['uuid'] %>" data-fields="<%= prefill_fields.to_json %>">
+      <div class="text-sm text-gray-700 space-y-1">
+        <p>Une ligne d'en-tête, puis un destinataire par ligne. Colonnes : <b>email</b> (obligatoire), <b>nom</b> (facultatif)<% if prefill_fields.any? %>, et pour préremplir : <%= prefill_fields.map { |e| tag.b(e[:name]) }.join(', ').html_safe %><% end %>.</p>
+        <p>Fichier <b>CSV</b> (Excel : Fichier › Enregistrer sous › CSV), ou copiez-collez les lignes depuis Excel ci-dessous.</p>
+      </div>
+      <input type="file" accept=".csv,.tsv,.txt,text/csv" data-role="file" class="file-input file-input-bordered file-input-sm w-full">
+      <textarea data-role="paste" rows="4" class="base-textarea w-full" placeholder="email;nom&#10;jean.dupont@exemple.com;Jean Dupont"></textarea>
+      <div data-role="summary" class="text-sm" aria-live="polite"></div>
+      <ul data-role="errors" class="text-sm text-red-600 list-disc pl-5 max-h-40 overflow-y-auto"></ul>
+      <div data-role="inputs" hidden></div>
+    </isheero-bulk-import>
+    <div>
+      <%= render 'send_email', f:, template:, can_send_emails:, viewer_submitter_uuids: local_assigns[:viewer_submitter_uuids] %>
+      <%= render 'extra_fields', f: %>
+    </div>
+    <div class="form-control">
+      <%= f.button button_title(title: t('add_recipients')), class: 'base-button', disabled: true, data: { role: 'isheero-bulk-submit' } %>
+    </div>
+  <% end %>
+<% end %>

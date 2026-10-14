@@ -12,6 +12,9 @@ ci-dessous sont remplacés.
 |---|---|---|
 | 2026-10-14 | `app/views/layouts/mailer.html.erb` | Logo iSHEERO en tête des mails, lien vers ce code source en pied de mail |
 | 2026-10-14 | `app/views/shared/_powered_by.html.erb` | Lien vers ce code source à côté de l'attribution DocuSeal |
+| 2026-10-14 | `app/views/submit_form/_docuseal_logo.html.erb` | Logo iSHEERO en tête de la page de signature (l'attribution DocuSeal reste en pied de page) |
+| 2026-10-14 | `app/views/submissions/_list_form.html.erb` | Import d'une liste de destinataires (CSV ou collage depuis Excel) à la place de l'encart « Pro » ; un envoi par ligne via le formulaire standard |
+| 2026-10-14 | `public/isheero/bulk-import.js` (nouveau) | Lecture et contrôle de la liste dans le navigateur, sans dépendance |
 
 L'attribution DocuSeal est conservée dans l'interface et dans les mails.
 
