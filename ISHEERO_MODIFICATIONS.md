@@ -10,7 +10,7 @@ ci-dessous sont remplacés.
 
 | Date | Fichier | Modification |
 |---|---|---|
-| 2026-10-14 | `app/views/layouts/mailer.html.erb` | Logo iSHEERO en tête des mails ; pied « Envoyé avec DocuSeal » retiré des mails (l'attribution et le lien vers ce code source restent sur les pages web) |
+| 2026-10-14 | `app/views/layouts/mailer.html.erb` | Logo iSHEERO en bas des mails, après la signature ; pied « Envoyé avec DocuSeal » retiré des mails (l'attribution et le lien vers ce code source restent sur les pages web) |
 | 2026-10-14 | `app/views/shared/_powered_by.html.erb` | Lien vers ce code source à côté de l'attribution DocuSeal |
 | 2026-10-14 | `app/views/submit_form/_docuseal_logo.html.erb` | Logo iSHEERO en tête de la page de signature (l'attribution DocuSeal reste en pied de page) |
 | 2026-10-14 | `app/views/submissions/_list_form.html.erb` | Import d'une liste de destinataires (CSV ou collage depuis Excel) à la place de l'encart « Pro » ; un envoi par ligne via le formulaire standard |
