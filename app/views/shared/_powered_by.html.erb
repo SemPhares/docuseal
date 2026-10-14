@@ -1,3 +1,5 @@
+<%# Modifié par iSHEERO le 2026-10-14 (DocuSeal 3.3.0, AGPLv3) : lien vers le code source
+    modifié, à côté de l'attribution DocuSeal. Source : ENV DOCUSEAL_SOURCE_URL. %>
 <div class="text-center px-2">
   <% if local_assigns[:with_counter] %>
     <% count = CompletedSubmitter.distinct.count(:submission_id) %>
@@ -10,4 +12,7 @@
     <%= t('powered_by') %>
   <% end %>
   <a href="<%= Docuseal::PRODUCT_URL %><%= local_assigns[:link_path] %>" class="underline"><%= Docuseal.product_name %></a> - <%= t('open_source_documents_software') %>
+  <% if ENV['DOCUSEAL_SOURCE_URL'].present? %>
+    - <a href="<%= ENV['DOCUSEAL_SOURCE_URL'] %>" class="underline">Code source</a>
+  <% end %>
 </div>
